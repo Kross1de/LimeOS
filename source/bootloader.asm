@@ -81,8 +81,8 @@ gdt2:
     pop rdi
     call kmain
 
-    cli
 hltLoop:
+	cli
     hlt
     jmp hltLoop
 
@@ -111,6 +111,7 @@ gdt_end:
 section .text
 extern gdtDesc
 global gdtFlush
+global archFatal
 
 gdtFlush:
 	lgdt [gdtDesc]
@@ -122,6 +123,11 @@ gdtFlush:
 	mov gs, ax 
 	mov ss, ax 
 	ret
+	
+archFatal:
+	cli
+	hlt
+	jmp archFatal
 
 section .bss
 align 16
