@@ -41,7 +41,7 @@ _start:
 
     mov edi, pd
     mov eax, 0x83  ; PRESENT, WRITABLE, HUGE
-    mov ecx, 512
+    mov ecx, 32
 .set_entry:
     mov [edi], eax
     add eax, 0x200000
@@ -107,6 +107,21 @@ gdt_base:
     db 0
     db 0
 gdt_end:
+
+section .text
+extern gdtDesc
+global gdtFlush
+
+gdtFlush:
+	lgdt [gdtDesc]
+	
+	mov ax, 0x10
+	mov ds, ax
+	mov es, ax 
+	mov fs, ax 
+	mov gs, ax 
+	mov ss, ax 
+	ret
 
 section .bss
 align 16
