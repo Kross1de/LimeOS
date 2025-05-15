@@ -16,7 +16,7 @@ void parseNum(char *s,int *ptr,uint32_t val,uint32_t base){
 	s[(*ptr)++]=(r+'0');
 }
 
-void parseHex(char *s,int *ptr,uint32_t val){
+void parseHex(char *s,int *ptr,uint64_t val){
 	int i = 16;
 	while(i-- > 0){
 		s[(*ptr)++]="0123456789abcdev"[val>>(i*4)&0x0f];
@@ -41,7 +41,7 @@ int vsprintf(char *s,const char *fmt,va_list args){
 					parseNum(s,&ptr,va_arg(args,int),10);
 					break;
 				case 'x':
-					parseHex(s,&ptr,va_arg(args,uint32_t));
+					parseHex(s,&ptr,va_arg(args,uint64_t));
 					break;
 				case 's':
 					parseString(s,&ptr,va_arg(args,char *));

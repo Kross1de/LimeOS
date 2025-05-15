@@ -16,7 +16,7 @@ KERNEL_OBJS = $(addprefix binaries/kernel/, $(KERNEL_ASM_SOURCES:.asm=.asm.o) $(
 # Flags
 ASFLAGS = -f elf64 -g -F dwarf
 CCFLAGS = -m64 -std=gnu11 -ffreestanding -Wall -Wextra -nostdlib -I source -fno-stack-protector -Wno-unused-parameter -fno-stack-check -fno-lto -mno-red-zone
-QEMUFLAGS = -debugcon stdio -cdrom binaries/$(IMAGE_NAME).iso -boot d
+QEMUFLAGS = -serial stdio -cdrom binaries/$(IMAGE_NAME).iso -boot d
 LDFLAGS = -m elf_x86_64 -Tsource/linker.ld -z noexecstack
 
 all:  kernel iso
