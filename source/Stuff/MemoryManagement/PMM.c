@@ -8,10 +8,8 @@
  //------------------------------------------- variables
  uint8_t *pmmBitmap = NULL;
  uint64_t pmmLastPage = 0;
- uint64_t pmmUsedPages = 0;
  uint64_t pmmPageCount = 0;
  uint64_t pmmUsableMem = 0;
- uint64_t pmmBitmapSize = 0;
  //------------------------------------------- functions
  void pmminstall(void *mboot_info){
 	 extern void *end;
@@ -25,7 +23,7 @@
 		 mmmt = &mmap->entries[i];
 		 
 		 if(mmmt->type==multibootMemoryAvailable){
-			 dprintf("%s:%d: Memory segment: addr=0x%x, len=0x%x, type=%u\n",__FILE__,__LINE__,mmmt->addr,mmmt->len,mmmt->type);
+			 pmmUsableMem+=mmmt->len;
 			 highestAddress = mmmt->addr+mmmt->len;
 		 }
 	 }
@@ -46,7 +44,7 @@
 	 }
 	 
 	 printf("%s:%d: initialized allocator at 0x%x\n",__FILE__,__LINE__,(uint64_t)pmmBitmap);
-	 printf("%s:%d: usable memory: %dKilobytes\n",__FILE__,__LINE__,pmmPageCount*4);
+	 printf("%s:%d: usable memory: %dKilobytes\n",__FILE__,__LINE__,pmmPageCount/1024);
  }
  //------------------------------------------- 
  uint64_t pmmFindPages(uint64_t pageCount) {
@@ -84,7 +82,7 @@
 		 pages=pmmFindPages(pageCount);
 		 
 		 if(!pages){
-			 dprintf("%s:%d: \033[33mwarning:\033[0m out of memory\n",__FILE__,__LINE__);
+			 printf("%s:%d: allocation failed: out of memory\n",__FILE__,__LINE__);
 			 return NULL;
 		 }
 	 }
