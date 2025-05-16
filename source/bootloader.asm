@@ -27,6 +27,8 @@ _start:
     mov esp, stackTop
     
     push 0
+    push eax
+    push 0
     push ebx
 
     mov edi, pml4
@@ -79,6 +81,7 @@ gdt2:
     mov gs, ax
 
     pop rdi
+    pop rsi
     call kmain
 
 hltLoop:

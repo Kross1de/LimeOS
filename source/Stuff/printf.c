@@ -37,6 +37,7 @@ int vsprintf(char *s,const char *fmt,va_list args){
 			fmt++;
 			
 			switch(*fmt){
+				case 'u':
 				case 'd':
 					parseNum(s,&ptr,va_arg(args,int),10);
 					break;
